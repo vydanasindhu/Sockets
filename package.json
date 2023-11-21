@@ -1,0 +1,32 @@
+{
+  "name": "my-fullstack-app",
+  "version": "1.0.0",
+  "description": "My Full Stack Application",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "client-install": "cd client && npm install",
+    "client-build": "cd client && npm run build",
+    "postinstall": "npm run client-install && npm run client-build",
+    "dev": "concurrently \"npm run server\" \"npm run client\""
+  },
+  "dependencies": {
+    "express": "^4.17.1",
+    "ws": "^7.4.5",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+  },
+  "devDependencies": {
+  },
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "Your repository URL"
+  },
+  "keywords": [
+  ],
+  "author": "Your Name",
+  "license": "ISC"
+}
