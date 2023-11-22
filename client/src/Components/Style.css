@@ -13,9 +13,39 @@ header {
 }
 
 header img {
-  max-width: 30%;
+  max-width: 20%;
   height: auto;
 }
+
+.App1 {
+  display: flex;
+  justify-content: space-between;
+  align-items: start;
+  gap: 20px;
+  padding: 10px;
+}
+
+.QuestionInfo, .Chat {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+  background-color: #f3f3f3; /* Card-like background */
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); /* Shadow for depth */
+  border-radius: 5px; /* Rounded corners for the card */
+  overflow: hidden; /* Ensures inner content respects border radius */
+}
+
+.Question, .Answer, .Source {
+  margin-bottom: 10px;
+  word-wrap: break-word;
+}
+
+
+
+
+
+
 
 .footer {
   background-color: #e0b90b;
@@ -25,6 +55,48 @@ header img {
   bottom: 0;
   width: 100%;
 }
+
+.App1 {
+  display: flex;
+  justify-content: space-between;
+  align-items: start; /* Align items to the start of the flex container */
+  gap: 20px; /* Adds space between the two main divs */
+  padding: 10px; /* Padding around the entire App1 container */
+}
+
+.QuestionInfo, .Chat {
+  flex: 1; /* Both divs take up equal space */
+  display: flex;
+  flex-direction: column; /* Stack children elements vertically */
+  padding: 10px; /* Padding inside each div */
+}
+
+.Question, .Answer, .Source {
+  margin-bottom: 10px; /* Space between each paragraph */
+  word-wrap: break-word; /* Breaks long words to prevent overflow */
+}
+
+.Messages {
+  overflow-y: auto; /* Enables scrolling for long message lists */
+  max-height: 300px; /* Adjust as needed */
+}
+
+.Message {
+  margin-bottom: 5px; /* Space between messages */
+}
+
+.Message.Sent {
+  /* Style for sent messages, e.g., text alignment or color */
+}
+
+.Message.Received {
+  /* Style for received messages */
+}
+
+input {
+  margin-top: 10px; /* Space above the input field */
+}
+
 
 
 /* gamecontent */

@@ -1,33 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import './Style.css';
-import Discussion from './Discussion'
 import questions from '../Assets/data.json';
 import avatar1 from '../Assets/avatar1.png';
 import avatar2 from '../Assets/avatar2.png';
 
-function GameContentClue() {
-  const [currentQuestionIndex, setCurrentQuestionIndex] = useState(null);
+function GameContentClue({ question, funccompleteround }) {
   const [timer, setTimer] = useState(60);
   const [score, setScore] = useState(0);
   const [clue, setClue] = useState('');
   const [isTimerActive, setIsTimerActive] = useState(true);
-
   const [ws, setWs] = useState(null);
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState('');
-
-  const getRandomQuestionIndex = (currentIndex) => {
-    let randomIndex;
-    do {
-      randomIndex = Math.floor(Math.random() * questions.length);
-    } while (questions.length > 1 && randomIndex === currentIndex);
-    return randomIndex;
-  };
-
-  useEffect(() => {
-    setCurrentQuestionIndex(getRandomQuestionIndex());
-  }, []);
-
   useEffect(() => {
     if (isTimerActive) {
       if (timer > 0) {
@@ -41,14 +25,6 @@ function GameContentClue() {
       }
     }
   }, [timer, isTimerActive]);
-
-  useEffect(() => {
-    if (currentQuestionIndex != null) {
-      // Reset timer for new question
-      setTimer(90);
-      setIsTimerActive(true);
-    }
-  }, [currentQuestionIndex]);
 
   useEffect(() => {
     const newWs = new WebSocket('wss://sockets.vydanasindhu.repl.co/');
@@ -80,30 +56,22 @@ function GameContentClue() {
     }
   };
 
-  const nextQuestion = () => {
-    setCurrentQuestionIndex(getRandomQuestionIndex(currentQuestionIndex));
-    setClue('');
-    setIsTimerActive(true);
-  };
-
-  if (currentQuestionIndex === null) {
+  if (!question) {
     return <p>Loading...</p>;
   }
 
-  const currentQuestion = questions[currentQuestionIndex];
-
   return (
     <div className="game-content">
-      {/* <div className="scoreboard">
+      <div className="scoreboard">
         <img src={avatar1} alt="Player 1 Avatar" className="avatar" />
         <span className="score">{score}</span>
         <img src={avatar2} alt="Player 2 Avatar" className="avatar" />
-      </div> */}
+      </div>
       <div className="question-card">
-        <p className="question">{currentQuestion.question}</p>
+        <p className="question">{question.question}</p>
         <h7 className="forbidden-words-heading">Forbidden words</h7>
         <ul className="forbidden-words">
-          {currentQuestion.forbiddenWords.map((word, index) => (
+          {question.forbiddenWords.map((word, index) => (
             <li key={index}>{word}</li>
           ))}
         </ul>
@@ -113,7 +81,6 @@ function GameContentClue() {
         <div className="clue-display">
           <b>Clues:</b>
           <p className="sent-messages">
-
             {messages
               .filter(message => message.type === 'sent')
               .map(message => message.text)
@@ -139,12 +106,13 @@ function GameContentClue() {
               onChange={(e) => setInput(e.target.value)}
               placeholder="Type a message..."
             />
-            <button onClick={sendMessage}>Send</button>
+            <button className="button" onClick={sendMessage}>Send</button>
+            <button className="button" onClick={funccompleteround}>Submit</button>
           </div>
         </div>
       </div>
     </div>
+
   );
 }
-
 export default GameContentClue;

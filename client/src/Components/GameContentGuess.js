@@ -1,12 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import './Style.css';
-import Discussion from './Discussion'
 import questions from '../Assets/data.json';
 import avatar1 from '../Assets/avatar1.png';
 import avatar2 from '../Assets/avatar2.png';
 
-function GameContentGuess() {
-  const [currentQuestionIndex, setCurrentQuestionIndex] = useState(null);
+function GameContentGuess({ question, funccompleteround }) {
   const [timer, setTimer] = useState(60);
   const [guess, setGuess] = useState('');
   const [isTimerActive, setIsTimerActive] = useState(true);
@@ -16,9 +14,6 @@ function GameContentGuess() {
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState('');
 
-  useEffect(() => {
-    setCurrentQuestionIndex(Math.floor(Math.random() * questions.length));
-  }, []);
 
   useEffect(() => {
     if (isTimerActive) {
@@ -64,15 +59,12 @@ function GameContentGuess() {
     // Add the current guess to previous guesses
     setPreviousGuesses(prevGuesses => [...prevGuesses, guess]);
     // Logic to check the guess and update score goes here
-
-    // Reset for next guess
-    setCurrentQuestionIndex(Math.floor(Math.random() * questions.length));
     setTimer(60);
     setIsTimerActive(true);
     setGuess('');
   };
 
-  if (currentQuestionIndex === null) {
+  if (!question) {
     return <p>Loading...</p>;
   }
 
@@ -84,30 +76,26 @@ function GameContentGuess() {
     }
   };
 
-  const currentQuestion = questions[currentQuestionIndex];
+
 
   return (
     <div className="game-content">
       <div className="scoreboard">
         <img src={avatar1} alt="Player 1 Avatar" className="avatar" />
-        <span className="score"> {score}</span>
+        <span className="score">{score}</span>
         <img src={avatar2} alt="Player 2 Avatar" className="avatar" />
       </div>
       <div className="question-card">
-        <p className="question">{currentQuestion.question}</p>
-        {/* Section for Joined Sent Messages */}
+        <p className="question">{question.question}</p>
         <div className="clue-display">
           <b>Clues:</b>
           <p className="sent-messages">
-
             {messages
               .filter(message => message.type === 'received')
               .map(message => message.text)
               .join(', ')}
           </p>
         </div>
-
-        {/* Section for Joined Received Messages */}
         <div className="clue-display">
           <b>Guesses:</b>
           <p className="received-messages">
@@ -124,12 +112,13 @@ function GameContentGuess() {
               onChange={(e) => setInput(e.target.value)}
               placeholder="Type a message..."
             />
-            <button onClick={sendMessage}>Send</button>
+            <button className="button" onClick={sendMessage}>Send</button>
+            <button className="button" onClick={funccompleteround}>Submit</button>
+
           </div>
         </div>
       </div>
     </div>
   );
 }
-
 export default GameContentGuess;
