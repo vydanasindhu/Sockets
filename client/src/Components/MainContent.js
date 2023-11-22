@@ -8,6 +8,7 @@ import GameDiscussion from './GameDiscussion';
 import questions from '../Assets/data.json';
 import './Style.css';
 
+import { collection, doc, getDoc } from 'firebase/firestore';
 import { firestore } from '../firebase';
 
 function MainContent() {
@@ -21,11 +22,11 @@ function MainContent() {
   useEffect(() => {
     const fetchQno = async () => {
       try {
-        const docRef = firestore.collection('unique_code').doc('round1');
-        const doc = await docRef.get();
+        const docRef = doc(firestore, 'unique_code', 'round1');
+        const docSnap = await getDoc(docRef);
 
-        if (doc.exists) {
-          setQno(doc.data().qno); // Access the qno field
+        if (docSnap.exists()) {
+          setQno(docSnap.data().qno); // Access the qno field
         } else {
           console.log('No such document!');
         }
@@ -40,13 +41,16 @@ function MainContent() {
   const handlecluegiver = () => {
     setGameStage('Clue');
     // setCurrentQuestion(questions[Math.floor(Math.random() * questions.length)]);
-    setCurrentQuestion(questions[qno * questions.length]);
+    // console.log(qno);
+    //console.log(questions[qno]);
+    setCurrentQuestion(questions[qno]);
+    console.log(currentQuestion);
   };
 
   const handleguesser = () => {
     setGameStage('Guess');
     // setCurrentQuestion(questions[Math.floor(Math.random() * questions.length)]);
-    setCurrentQuestion(questions[qno * questions.length]);
+    setCurrentQuestion(questions[qno]);
   };
 
   const handlecompleteround = () => {

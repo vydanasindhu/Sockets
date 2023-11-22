@@ -4,6 +4,8 @@ import questions from '../Assets/data.json';
 import avatar1 from '../Assets/avatar1.png';
 import avatar2 from '../Assets/avatar2.png';
 
+import { firestore } from '../firebase';
+
 function GameContentGuess({ question, funccompleteround }) {
   const [timer, setTimer] = useState(60);
   const [guess, setGuess] = useState('');
@@ -51,9 +53,41 @@ function GameContentGuess({ question, funccompleteround }) {
     return () => newWs.close();
   }, []);
 
+  // useEffect(() => {
+  //   const unsubscribe = firestore.collection('unique_code').doc('total')
+  //     .onSnapshot(docSnapshot => {
+  //       if (docSnapshot.exists) {
+  //         const data = docSnapshot.data();
+  //         setScore(data.score); // Update the local state when Firestore updates
+  //       }
+  //     }, err => {
+  //       console.log(`Encountered error: ${err}`);
+  //     });
+
+  //   // Clean up the listener when the component unmounts
+  //   return () => unsubscribe();
+  // }, []);
+
+  // const updateScoreInFirestore = async (newScore) => {
+  //   try {
+  //     await firestore.collection('unique_code').doc('total').update({ score: newScore });
+  //     console.log('Score updated successfully');
+  //   } catch (error) {
+  //     console.error('Error updating score: ', error);
+  //   }
+  // };
+
+  // const handleScoreChange = (given_ans) => {
+  //   if (given_ans === question.answer) {
+  //     score = score + 1;
+  //     updateScoreInFirestore(score);
+  //   }
+  // };
+
   const handleGuessChange = (event) => {
     setGuess(event.target.value);
   };
+
 
   const submitGuess = () => {
     // Add the current guess to previous guesses
@@ -71,6 +105,7 @@ function GameContentGuess({ question, funccompleteround }) {
   const sendMessage = () => {
     if (ws && ws.readyState === ws.OPEN && input) {
       ws.send(input);
+      // handleScoreChange(input);
       setMessages(prev => [...prev, { text: input, type: 'sent' }]);
       setInput('');
     }
