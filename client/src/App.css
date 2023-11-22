@@ -48,14 +48,17 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  width: 500px;
 }
 
 .Chat input {
-  width: 60%;
+  width: 100%;
   padding: 10px;
   margin-bottom: 10px;
   border: 1px solid #ddd;
   border-radius: 4px;
+  margin-top: 20px;
+  width: 50%;
 }
 
 .Chat button {
@@ -72,8 +75,8 @@
 }
 
 .Messages {
-  width: 60%;
-  max-height: 300px;
+  width: 80%;
+  max-height: 600px;
   overflow-y: auto;
   border: 1px solid #ddd;
   border-radius: 4px;
@@ -83,4 +86,18 @@
 
 .Messages p {
   margin: 5px 0;
+}
+
+.Sent {
+  /* background-color: #4CAF50; */
+  /* align-self: flex-end; */
+  width: 100%;
+  text-align: right;
+}
+
+.Received {
+  background-color: #f1f1f1; /* Light gray for received messages */
+  align-self: flex-start;
+  width: 100%;
+  text-align: left;
 }
