@@ -1,28 +1,81 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import leftRobotImage from '../Assets/Robot1.png';
 import rightRobotImage from '../Assets/Robot2.png';
 import Chat from './Chat';
-import Discussion from './Discussion';
 import GameContentClue from './GameContentClue';
 import GameContentGuess from './GameContentGuess';
+import GameDiscussion from './GameDiscussion';
+import questions from '../Assets/data.json';
 import './Style.css';
 
+import { collection, doc, getDoc, updateDoc } from 'firebase/firestore';
+import { firestore } from '../firebase';
 
 function MainContent() {
 
   const [gameStage, setGameStage] = useState('Landing');
   const [playerName, setPlayerName] = useState('');
+  const [currentQuestion, setCurrentQuestion] = useState(null);
+
+  const [qno, setQno] = useState(null);
+
+  try {
+    const docRef = doc(firestore, 'unique_code', 'total');
+    updateDoc(docRef, { score: 0 });
+    console.log('Score updated successfully');
+  } catch (error) {
+    console.error('Error updating score: ', error);
+    console.error('Detailed error message: ', error.message);
+  }
+
+  useEffect(() => {
+    const fetchQno = async () => {
+      try {
+        const docRef = doc(firestore, 'unique_code', 'round1');
+        const docSnap = await getDoc(docRef);
+
+        if (docSnap.exists()) {
+          setQno(docSnap.data().qno); // Access the qno field
+        } else {
+          console.log('No such document!');
+        }
+      } catch (err) {
+        console.error("Error fetching qno: ", err);
+      }
+    };
+
+    fetchQno();
+  }, []);
 
   const handlecluegiver = () => {
     setGameStage('Clue');
+    // setCurrentQuestion(questions[Math.floor(Math.random() * questions.length)]);
+    // console.log(qno);
+    //console.log(questions[qno]);
+
+    //if round 2 setCurrentQuestion(funquestions[qno]);
+    setCurrentQuestion(questions[qno]);
+    // console.log(currentQuestion);
   };
 
   const handleguesser = () => {
     setGameStage('Guess');
+    // setCurrentQuestion(questions[Math.floor(Math.random() * questions.length)]);
+
+    //if round 2 setCurrentQuestion(funquestions[qno]);
+    setCurrentQuestion(questions[qno]);
+  };
+
+  const handlecompleteround = () => {
+    setGameStage('Discussion');
   };
 
   const handleSubmit = () => {
     setGameStage('intro');
+  };
+
+  const changeGameStage = (newStage) => {
+    setGameStage(newStage);
   };
 
 
@@ -41,12 +94,16 @@ function MainContent() {
 
 
   const renderClue = () => (
-    <GameContentClue />
+    <GameContentClue question={currentQuestion} funccompleteround={handlecompleteround} />
   );
 
 
   const renderGuess = () => (
-    <GameContentGuess />
+    <GameContentGuess question={currentQuestion} funccompleteround={handlecompleteround} />
+  );
+
+  const renderDiscussion = () => (
+    <GameDiscussion question={currentQuestion} />
   );
 
   const renderIntro = () => (
@@ -109,7 +166,7 @@ function MainContent() {
   }
 
   function renderleftImages() {
-    if (gameStage !== 'Clue' && gameStage !== 'Guess') {
+    if (gameStage !== 'Clue' && gameStage !== 'Guess' && gameStage !== 'Discussion') {
       return (
         <>
           <img src={leftRobotImage} alt="Left Robot" className="sideImage" />
@@ -120,7 +177,7 @@ function MainContent() {
   }
 
   function renderrightImages() {
-    if (gameStage !== 'Clue' && gameStage !== 'Guess') {
+    if (gameStage !== 'Clue' && gameStage !== 'Guess' && gameStage !== 'Discussion') {
       return (
         <>
           <img src={rightRobotImage} alt="Left Robot" className="sideImage" />
@@ -128,6 +185,7 @@ function MainContent() {
       );
     }
   }
+
 
   return (
     <div className="mainContent" >
@@ -143,7 +201,9 @@ function MainContent() {
         {gameStage === 'Gamestart' && renderGamestart()}
         {gameStage === 'Clue' && renderClue()}
         {gameStage === 'Guess' && renderGuess()}
-        {gameStage === 'Discussion' && <Discussion />}
+        {gameStage === 'Discussion' && renderDiscussion()}
+
+
 
       </div>
       {renderrightImages()}

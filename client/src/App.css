@@ -4,6 +4,9 @@
   text-align: center;
 }
 
+
+
+
 .App-logo {
   height: 40vmin;
   pointer-events: none;
@@ -59,19 +62,6 @@
   border-radius: 4px;
   margin-top: 20px;
   width: 50%;
-}
-
-.Chat button {
-  padding: 10px 20px;
-  background-color: #61dafb;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-.Chat button:hover {
-  background-color: #52a8d8;
 }
 
 .Messages {

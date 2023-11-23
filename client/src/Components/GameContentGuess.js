@@ -1,24 +1,25 @@
 import React, { useState, useEffect } from 'react';
 import './Style.css';
-import Discussion from './Discussion'
 import questions from '../Assets/data.json';
 import avatar1 from '../Assets/avatar1.png';
 import avatar2 from '../Assets/avatar2.png';
 
-function GameContentGuess() {
-  const [currentQuestionIndex, setCurrentQuestionIndex] = useState(null);
+import { collection, doc, updateDoc, getDoc } from 'firebase/firestore';
+import { firestore } from '../firebase';
+
+function GameContentGuess({ question, funccompleteround }) {
   const [timer, setTimer] = useState(60);
   const [guess, setGuess] = useState('');
   const [isTimerActive, setIsTimerActive] = useState(true);
   const [score, setScore] = useState(0); // Added score state
   const [previousGuesses, setPreviousGuesses] = useState([]); // State for storing previous guesses
   const [ws, setWs] = useState(null);
+  const [isAnswerCorrect, setIsAnswerCorrect] = useState(false);
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState('');
+  const [numGuesses, setnumGuesses] = useState(0);
 
-  useEffect(() => {
-    setCurrentQuestionIndex(Math.floor(Math.random() * questions.length));
-  }, []);
+
 
   useEffect(() => {
     if (isTimerActive) {
@@ -56,50 +57,129 @@ function GameContentGuess() {
     return () => newWs.close();
   }, []);
 
+  // useEffect(() => {
+  //   const unsubscribe = firestore.collection('unique_code').doc('total')
+  //     .onSnapshot(docSnapshot => {
+  //       if (docSnapshot.exists) {
+  //         const data = docSnapshot.data();
+  //         console.log(data.score);
+  //         setScore(data.score); // Update the local state when Firestore updates
+  //       }
+  //     }, err => {
+  //       console.log(`Encountered error: ${err}`);
+  //     });
+
+  //   // Clean up the listener when the component unmounts
+  //   return () => unsubscribe();
+  // }, []);
+
+  //pull score from database
+  // useEffect(() => {
+  //   const fetchScore = async () => {
+  //     try {
+  //       const docRef = doc(firestore, 'unique_code', 'total');
+  //       const docSnap = await getDoc(docRef);
+
+  //       if (docSnap.exists()) {
+  //         setScore(docSnap.data().score); // Access the qno field
+  //       } else {
+  //         console.log('No such document!');
+  //       }
+  //     } catch (err) {
+  //       console.error("Error fetching score: ", err);
+  //     }
+  //   };
+
+  //   fetchScore();
+  // }, []);
+
+  const updateScoreInFirestore = async (newScore) => {
+    try {
+      const docRef = doc(firestore, 'unique_code', 'total');
+      await updateDoc(docRef, { score: newScore });
+      console.log('Score updated successfully');
+    } catch (error) {
+      console.error('Error updating score: ', error);
+      console.error('Detailed error message: ', error.message);
+    }
+  };
+
+  // const handleScoreChange = (given_ans) => {
+  //   if (given_ans === question.answer.toLowerCase()) {
+  //     setScore(score + 1);
+  //     updateScoreInFirestore(score + 1);
+  //   }
+  // };
+
   const handleGuessChange = (event) => {
     setGuess(event.target.value);
   };
+
 
   const submitGuess = () => {
     // Add the current guess to previous guesses
     setPreviousGuesses(prevGuesses => [...prevGuesses, guess]);
     // Logic to check the guess and update score goes here
-
-    // Reset for next guess
-    setCurrentQuestionIndex(Math.floor(Math.random() * questions.length));
     setTimer(60);
     setIsTimerActive(true);
     setGuess('');
   };
 
-  if (currentQuestionIndex === null) {
+  if (!question) {
     return <p>Loading...</p>;
   }
 
   const sendMessage = () => {
+    const inputTrimmed = input.trim().toLowerCase();
+
+    if (!isTimerActive) {
+      alert("Time's up!");
+      return;
+    }
+
+    if (isAnswerCorrect) {
+      alert("Your previous guess is correct. Click Continue to know more about the question.");
+      return;
+    }
     if (ws && ws.readyState === ws.OPEN && input) {
       ws.send(input);
+      // handleScoreChange(inputTrimmed);
+
+      if (inputTrimmed === question.answer.toLowerCase()) {
+        var incscore = 1;
+        if (numGuesses === 0) {
+          incscore = 3;
+        }
+        else if (numGuesses === 1) {
+          incscore = 2;
+        }
+        else {
+          incscore = 1;
+        }
+        setScore(score + incscore);
+        updateScoreInFirestore(score + incscore);
+        setIsAnswerCorrect(true);
+      }
       setMessages(prev => [...prev, { text: input, type: 'sent' }]);
       setInput('');
+      setnumGuesses(numGuesses + 1);
     }
   };
 
-  const currentQuestion = questions[currentQuestionIndex];
+
 
   return (
     <div className="game-content">
       <div className="scoreboard">
         <img src={avatar1} alt="Player 1 Avatar" className="avatar" />
-        <span className="score"> {score}</span>
+        <span className="score">{score}</span>
         <img src={avatar2} alt="Player 2 Avatar" className="avatar" />
       </div>
       <div className="question-card">
-        <p className="question">{currentQuestion.question}</p>
-        {/* Section for Joined Sent Messages */}
+        <p className="question">{question.question}</p>
         <div className="clue-display">
           <b>Clues:</b>
           <p className="sent-messages">
-
             {messages
               .filter(message => message.type === 'received')
               .map(message => message.text)
@@ -107,7 +187,8 @@ function GameContentGuess() {
           </p>
         </div>
 
-        {/* Section for Joined Received Messages */}
+        <div className="timer">{timer} seconds remaining</div>
+
         <div className="clue-display">
           <b>Guesses:</b>
           <p className="received-messages">
@@ -124,12 +205,15 @@ function GameContentGuess() {
               onChange={(e) => setInput(e.target.value)}
               placeholder="Type a message..."
             />
-            <button onClick={sendMessage}>Send</button>
+            <button className="button" onClick={sendMessage} >Send</button>
+            <button className="button" onClick={funccompleteround}>
+              {isAnswerCorrect || !isTimerActive ? 'Continue' : 'Submit'}
+            </button>
+
           </div>
         </div>
       </div>
     </div>
   );
 }
-
 export default GameContentGuess;
