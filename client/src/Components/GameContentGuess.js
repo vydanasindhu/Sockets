@@ -4,6 +4,7 @@ import questions from '../Assets/data.json';
 import avatar1 from '../Assets/avatar1.png';
 import avatar2 from '../Assets/avatar2.png';
 
+import { collection, doc, updateDoc, getDoc } from 'firebase/firestore';
 import { firestore } from '../firebase';
 
 function GameContentGuess({ question, funccompleteround }) {
@@ -13,8 +14,11 @@ function GameContentGuess({ question, funccompleteround }) {
   const [score, setScore] = useState(0); // Added score state
   const [previousGuesses, setPreviousGuesses] = useState([]); // State for storing previous guesses
   const [ws, setWs] = useState(null);
+  const [isAnswerCorrect, setIsAnswerCorrect] = useState(false);
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState('');
+  const [numGuesses, setnumGuesses] = useState(0);
+
 
 
   useEffect(() => {
@@ -58,6 +62,7 @@ function GameContentGuess({ question, funccompleteround }) {
   //     .onSnapshot(docSnapshot => {
   //       if (docSnapshot.exists) {
   //         const data = docSnapshot.data();
+  //         console.log(data.score);
   //         setScore(data.score); // Update the local state when Firestore updates
   //       }
   //     }, err => {
@@ -68,19 +73,41 @@ function GameContentGuess({ question, funccompleteround }) {
   //   return () => unsubscribe();
   // }, []);
 
-  // const updateScoreInFirestore = async (newScore) => {
-  //   try {
-  //     await firestore.collection('unique_code').doc('total').update({ score: newScore });
-  //     console.log('Score updated successfully');
-  //   } catch (error) {
-  //     console.error('Error updating score: ', error);
-  //   }
-  // };
+  //pull score from database
+  // useEffect(() => {
+  //   const fetchScore = async () => {
+  //     try {
+  //       const docRef = doc(firestore, 'unique_code', 'total');
+  //       const docSnap = await getDoc(docRef);
+
+  //       if (docSnap.exists()) {
+  //         setScore(docSnap.data().score); // Access the qno field
+  //       } else {
+  //         console.log('No such document!');
+  //       }
+  //     } catch (err) {
+  //       console.error("Error fetching score: ", err);
+  //     }
+  //   };
+
+  //   fetchScore();
+  // }, []);
+
+  const updateScoreInFirestore = async (newScore) => {
+    try {
+      const docRef = doc(firestore, 'unique_code', 'total');
+      await updateDoc(docRef, { score: newScore });
+      console.log('Score updated successfully');
+    } catch (error) {
+      console.error('Error updating score: ', error);
+      console.error('Detailed error message: ', error.message);
+    }
+  };
 
   // const handleScoreChange = (given_ans) => {
-  //   if (given_ans === question.answer) {
-  //     score = score + 1;
-  //     updateScoreInFirestore(score);
+  //   if (given_ans === question.answer.toLowerCase()) {
+  //     setScore(score + 1);
+  //     updateScoreInFirestore(score + 1);
   //   }
   // };
 
@@ -103,11 +130,39 @@ function GameContentGuess({ question, funccompleteround }) {
   }
 
   const sendMessage = () => {
+    const inputTrimmed = input.trim().toLowerCase();
+
+    if (!isTimerActive) {
+      alert("Time's up!");
+      return;
+    }
+
+    if (isAnswerCorrect) {
+      alert("Your previous guess is correct. Click Continue to know more about the question.");
+      return;
+    }
     if (ws && ws.readyState === ws.OPEN && input) {
       ws.send(input);
-      // handleScoreChange(input);
+      // handleScoreChange(inputTrimmed);
+
+      if (inputTrimmed === question.answer.toLowerCase()) {
+        var incscore = 1;
+        if (numGuesses === 0) {
+          incscore = 3;
+        }
+        else if (numGuesses === 1) {
+          incscore = 2;
+        }
+        else {
+          incscore = 1;
+        }
+        setScore(score + incscore);
+        updateScoreInFirestore(score + incscore);
+        setIsAnswerCorrect(true);
+      }
       setMessages(prev => [...prev, { text: input, type: 'sent' }]);
       setInput('');
+      setnumGuesses(numGuesses + 1);
     }
   };
 
@@ -131,6 +186,9 @@ function GameContentGuess({ question, funccompleteround }) {
               .join(', ')}
           </p>
         </div>
+
+        <div className="timer">{timer} seconds remaining</div>
+
         <div className="clue-display">
           <b>Guesses:</b>
           <p className="received-messages">
@@ -147,8 +205,10 @@ function GameContentGuess({ question, funccompleteround }) {
               onChange={(e) => setInput(e.target.value)}
               placeholder="Type a message..."
             />
-            <button className="button" onClick={sendMessage}>Send</button>
-            <button className="button" onClick={funccompleteround}>Submit</button>
+            <button className="button" onClick={sendMessage} >Send</button>
+            <button className="button" onClick={funccompleteround}>
+              {isAnswerCorrect || !isTimerActive ? 'Continue' : 'Submit'}
+            </button>
 
           </div>
         </div>

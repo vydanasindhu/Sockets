@@ -42,11 +42,6 @@ header img {
 }
 
 
-
-
-
-
-
 .footer {
   background-color: #e0b90b;
   color: black;
@@ -215,7 +210,9 @@ input {
   box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
   transition-duration: 0.4s;
 }
-.button, .submit-guess {
+
+
+.button, .submit-guess, .Chat button {
   background-color: #e0b90b;
   border: none;
   color: white;
@@ -240,7 +237,7 @@ input {
   box-sizing: border-box;
 }
 
-.button:hover, .next-question:hover {
+.button:hover, .next-question:hover,.Chat button:hover {
   background-color: #45a049;
   box-shadow: 0 12px 16px 0 rgba(0,0,0,0.3);
 }

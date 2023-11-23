@@ -64,19 +64,6 @@
   width: 50%;
 }
 
-.Chat button {
-  padding: 10px 20px;
-  background-color: #61dafb;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-.Chat button:hover {
-  background-color: #52a8d8;
-}
-
 .Messages {
   width: 80%;
   max-height: 600px;

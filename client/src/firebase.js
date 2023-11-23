@@ -23,4 +23,6 @@ const app = initializeApp(firebaseConfig);
 // Initialize Firestore
 const firestore = getFirestore(app);
 
+const Ph = getFirestore(app);
+
 export { firestore };

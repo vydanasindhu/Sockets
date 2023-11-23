@@ -8,16 +8,25 @@ import GameDiscussion from './GameDiscussion';
 import questions from '../Assets/data.json';
 import './Style.css';
 
-import { collection, doc, getDoc } from 'firebase/firestore';
+import { collection, doc, getDoc, updateDoc } from 'firebase/firestore';
 import { firestore } from '../firebase';
 
 function MainContent() {
 
-  const [gameStage, setGameStage] = useState('questions');
+  const [gameStage, setGameStage] = useState('Landing');
   const [playerName, setPlayerName] = useState('');
   const [currentQuestion, setCurrentQuestion] = useState(null);
 
   const [qno, setQno] = useState(null);
+
+  try {
+    const docRef = doc(firestore, 'unique_code', 'total');
+    updateDoc(docRef, { score: 0 });
+    console.log('Score updated successfully');
+  } catch (error) {
+    console.error('Error updating score: ', error);
+    console.error('Detailed error message: ', error.message);
+  }
 
   useEffect(() => {
     const fetchQno = async () => {
@@ -43,13 +52,17 @@ function MainContent() {
     // setCurrentQuestion(questions[Math.floor(Math.random() * questions.length)]);
     // console.log(qno);
     //console.log(questions[qno]);
+
+    //if round 2 setCurrentQuestion(funquestions[qno]);
     setCurrentQuestion(questions[qno]);
-    console.log(currentQuestion);
+    // console.log(currentQuestion);
   };
 
   const handleguesser = () => {
     setGameStage('Guess');
     // setCurrentQuestion(questions[Math.floor(Math.random() * questions.length)]);
+
+    //if round 2 setCurrentQuestion(funquestions[qno]);
     setCurrentQuestion(questions[qno]);
   };
 

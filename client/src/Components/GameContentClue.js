@@ -4,6 +4,9 @@ import questions from '../Assets/data.json';
 import avatar1 from '../Assets/avatar1.png';
 import avatar2 from '../Assets/avatar2.png';
 
+import { collection, doc, getDoc, onSnapshot } from 'firebase/firestore';
+import { firestore } from '../firebase';
+
 function GameContentClue({ question, funccompleteround }) {
   const [timer, setTimer] = useState(60);
   const [score, setScore] = useState(0);
@@ -12,6 +15,8 @@ function GameContentClue({ question, funccompleteround }) {
   const [ws, setWs] = useState(null);
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState('');
+
+
   useEffect(() => {
     if (isTimerActive) {
       if (timer > 0) {
@@ -20,7 +25,6 @@ function GameContentClue({ question, funccompleteround }) {
         }, 1000);
         return () => clearInterval(intervalId);
       } else {
-        // Handle what happens when the timer runs out
         setIsTimerActive(false);
       }
     }
@@ -29,9 +33,7 @@ function GameContentClue({ question, funccompleteround }) {
   useEffect(() => {
     const newWs = new WebSocket('wss://sockets.vydanasindhu.repl.co/');
     newWs.onmessage = (event) => {
-      // Check if the message is a Blob
       if (event.data instanceof Blob) {
-        // Convert Blob to text
         const reader = new FileReader();
         reader.onload = function() {
           if (reader.result) {
@@ -40,7 +42,6 @@ function GameContentClue({ question, funccompleteround }) {
         };
         reader.readAsText(event.data);
       } else {
-        // Handle as normal text
         setMessages(prev => [...prev, { text: event.data, type: 'received' }]);
       }
     };
@@ -48,11 +49,71 @@ function GameContentClue({ question, funccompleteround }) {
     return () => newWs.close();
   }, []);
 
+  //pull score from database
+  // useEffect(() => {
+  //   const fetchScore = async () => {
+  //     try {
+  //       const docRef = doc(firestore, 'unique_code', 'total');
+  //       const docSnap = await getDoc(docRef);
+
+  //       if (docSnap.exists()) {
+  //         console.log(docSnap.data().score);
+  //         setScore(docSnap.data().score);
+  //       } else {
+  //         console.log('No such document!');
+  //       }
+  //     } catch (err) {
+  //       console.error("Error fetching score: ", err);
+  //     }
+  //   };
+
+  //   fetchScore();
+  // }, []);
+
+  // continuously check database and update score accordingly
+  useEffect(() => {
+    const docRef = doc(firestore, 'unique_code', 'total');
+
+    const unsubscribe = onSnapshot(docRef, (doc) => {
+      if (doc.exists()) {
+        console.log(doc.data().score);
+        setScore(doc.data().score);
+      } else {
+        console.log('No such document!');
+      }
+    }, err => {
+      console.error("Error fetching score: ", err);
+    });
+
+    // Clean up the listener when the component unmounts
+    return () => unsubscribe();
+  }, []);
+
+
   const sendMessage = () => {
-    if (ws && ws.readyState === ws.OPEN && input) {
-      ws.send(input);
-      setMessages(prev => [...prev, { text: input, type: 'sent' }]);
-      setInput('');
+    if (!isTimerActive) {
+      alert("Time's up!");
+      return;
+    }
+    const inputTrimmed = input.trim().toLowerCase();
+    const isSingleWord = inputTrimmed.indexOf(' ') === -1;
+
+    const containsForbiddenSubword = question.forbiddenWords.some(
+      forbiddenWord => inputTrimmed.includes(forbiddenWord.toLowerCase())
+    );
+
+    if (ws && ws.readyState === ws.OPEN && inputTrimmed) {
+      if (isSingleWord && !containsForbiddenSubword) {
+        ws.send(inputTrimmed);
+        setMessages(prev => [...prev, { text: inputTrimmed, type: 'sent' }]);
+        setInput('');
+      } else {
+        if (!isSingleWord) {
+          alert("Please enter a single word as a clue.");
+        } else if (containsForbiddenSubword) {
+          alert("The clue contains a forbidden word. Please try a different word.");
+        }
+      }
     }
   };
 
@@ -105,9 +166,12 @@ function GameContentClue({ question, funccompleteround }) {
               value={input}
               onChange={(e) => setInput(e.target.value)}
               placeholder="Type a message..."
+
             />
-            <button className="button" onClick={sendMessage}>Send</button>
-            <button className="button" onClick={funccompleteround}>Submit</button>
+            <button className="button" onClick={sendMessage} >Send</button>
+            <button class="button" onClick={funccompleteround}>
+              {isTimerActive ? 'Submit' : 'Continue'}
+            </button>
           </div>
         </div>
       </div>
