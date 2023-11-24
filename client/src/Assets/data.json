@@ -6,27 +6,27 @@
     "source": "https://www.virtua.org/news/virtua-health-launches-ai-technology-to-enhance-colon-cancer-screenings#:~:text=GI%20Genius%E2%84%A2%20helps%20physicians,women%20in%20the%20United%20States."
   },
   {
-    "question": "The Eiffel Tower is a notable landmark in _____, France.",
-    "forbiddenWords": ["Paris", "Monument", "Metal", "Tower", "Tourist"],
-    "answer": "Paris",
-    "source": "https://www.virtua.org/news/virtua-health-launches-ai-technology-to-enhance-colon-cancer-screenings#:~:text=GI%20Genius%E2%84%A2%20helps%20physicians,women%20in%20the%20United%20States."
+    "question": "Viz.ai's AI products can detect issues and notify _____ teams quickly, enabling providers to discuss options, provide faster treatment decisions, thus saving lives.",
+    "forbiddenWords": ["Tend", "Aid", "heed", "support", "concern"],
+    "answer": "Care",
+    "source": "https://builtin.com/artificial-intelligence/artificial-intelligence-healthcare"
   },
   {
-    "question": "_____ is a process of communication through the use of symbols or signs.",
-    "forbiddenWords": ["Language", "Words", "Speak", "Writing", "Gesture"],
-    "answer": "Language",
-    "source": "https://www.virtua.org/news/virtua-health-launches-ai-technology-to-enhance-colon-cancer-screenings#:~:text=GI%20Genius%E2%84%A2%20helps%20physicians,women%20in%20the%20United%20States."
+    "question": "BioXcel Therapeutics, Inc. is a biopharmaceutical company utilizing artificial intelligence to develop transformative medicines in _________.",
+    "forbiddenWords": ["neuron", "science", "brain", "nerves", "neurology"],
+    "answer": "neuroscience",
+    "source": "https://www.bioxceltherapeutics.com/overview/"
   },
   {
-    "question": "The Great Barrier Reef is the world's largest coral reef system located in the _____ Ocean.",
-    "forbiddenWords": ["Pacific", "Australia", "Marine", "Coral", "Ocean"],
-    "answer": "Coral Sea",
-    "source": "https://www.virtua.org/news/virtua-health-launches-ai-technology-to-enhance-colon-cancer-screenings#:~:text=GI%20Genius%E2%84%A2%20helps%20physicians,women%20in%20the%20United%20States."
+    "question": "PathAI is the only AI-focused technology company with comprehensive precision ______ solutions",
+    "forbiddenWords": ["disease", "tissue", "lab", "biopsy", "diagnosis"],
+    "answer": "pathology",
+    "source": "https://www.pathai.com/about-us/"
   },
   {
-    "question": "_____ is the study of the past as it is described in written documents.",
-    "forbiddenWords": ["History", "Past", "Study", "Documents", "Ancient"],
-    "answer": "History",
-    "source": "https://www.virtua.org/news/virtua-health-launches-ai-technology-to-enhance-colon-cancer-screenings#:~:text=GI%20Genius%E2%84%A2%20helps%20physicians,women%20in%20the%20United%20States."
+    "question": "Activ Surgical completed the world’s first autonomous ______ surgery of soft tissue in 2018.",
+    "forbiddenWords": ["robot", "machine", "Cyborg", "terminator", "Bionic"],
+    "answer": "robotic",
+    "source": "https://www.activsurgical.com/about"
   }
 ]

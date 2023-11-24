@@ -7,6 +7,7 @@ import GameContentGuess from './GameContentGuess';
 import GameDiscussion from './GameDiscussion';
 import SurveyComp from './SurveyComp';
 import questions from '../Assets/data.json';
+import funquestions from '../Assets/fundata.json';
 import './Style.css';
 import { collection, doc, getDoc, updateDoc, addDoc } from 'firebase/firestore';
 import { firestore } from '../firebase';
@@ -114,7 +115,12 @@ function MainContent() {
     const questionNumber = roundQuestions[roundKey];
     console.log(`Qno: ${questionNumber}`);
     if (questionNumber !== null) {
-      setCurrentQuestion(questions[questionNumber]);
+      if (currentRound % 2 === 1) {
+        setCurrentQuestion(questions[questionNumber]);
+      }
+      else {
+        setCurrentQuestion(funquestions[questionNumber]);
+      }
     }
     setGameStage('Clue');
     // setCurrentQuestion(questions[Math.floor(Math.random() * questions.length)]);
@@ -132,7 +138,12 @@ function MainContent() {
     const questionNumber = roundQuestions[roundKey];
     console.log(`Qno: ${questionNumber}`);
     if (questionNumber !== null) {
-      setCurrentQuestion(questions[questionNumber]);
+      if (currentRound % 2 === 1) {
+        setCurrentQuestion(questions[questionNumber]);
+      }
+      else {
+        setCurrentQuestion(funquestions[questionNumber]);
+      }
     }
     setGameStage('Guess');
     // setCurrentQuestion(questions[Math.floor(Math.random() * questions.length)]);
