@@ -27,22 +27,30 @@ function MainContent() {
   const [qno, setQno] = useState(null);
   const initializeRounds = async () => {
     const totalQuestions = questions.length;
-    const selectedQuestions = new Set();
-
-    while (selectedQuestions.size < 5) {
-      const randomQno = Math.floor(Math.random() * totalQuestions);
-      selectedQuestions.add(randomQno);
-    }
-
-    const roundQnos = Array.from(selectedQuestions);
-    for (let i = 0; i < 5; i++) {
-      console.log("I am called again");
-      const roundKey = `round${i + 1}`;
+    const existingQnos = new Set();
+    // Fetch existing qno for each round and add to the set
+    for (let i = 1; i <= 5; i++) {
+      const roundKey = `round${i}`;
       const docRef = doc(firestore, 'unique_code', roundKey);
-      //await updateDoc(docRef, { qno: roundQnos[i] });
       const docSnap = await getDoc(docRef);
+      if (docSnap.exists() && docSnap.data().qno !== -1) {
+        existingQnos.add(docSnap.data().qno);
+      }
+    }
+    // Update qno for rounds where it is -1, ensuring no duplication
+    for (let i = 1; i <= 5; i++) {
+      const roundKey = `round${i}`;
+      const docRef = doc(firestore, 'unique_code', roundKey);
+      const docSnap = await getDoc(docRef);
+
       if (docSnap.exists() && docSnap.data().qno === -1) {
-        await updateDoc(docRef, { qno: roundQnos[i] });
+        let randomQno;
+        do {
+          randomQno = Math.floor(Math.random() * totalQuestions);
+        } while (existingQnos.has(randomQno)); // Ensure the question is not already selected
+
+        await updateDoc(docRef, { qno: randomQno });
+        existingQnos.add(randomQno); // Add the new qno to the set to avoid duplication
       }
     }
   };
@@ -53,16 +61,23 @@ function MainContent() {
   }, [currentRound]);
 
   //set total score to 0
-  try {
-    const docRef = doc(firestore, 'unique_code', 'total');
-    updateDoc(docRef, { score: 0 });
-    console.log('Score updated successfully');
-  } catch (error) {
-    console.error('Error updating score: ', error);
-    console.error('Detailed error message: ', error.message);
-  }
+  const initializeScores = async () => {
+    try {
+      const docRef = doc(firestore, 'unique_code', 'total');
+      await updateDoc(docRef, { score: 0 });
+      console.log('Score updated successfully to 0');
+    } catch (error) {
+      console.error('Error updating score: ', error);
+      console.error('Detailed error message: ', error.message);
+    }
+  };
 
 
+  useEffect(() => {
+    if (currentRound === 1) {
+      initializeScores();
+    }
+  }, [currentRound]);
   /*//set qno to random number for round1
   try {
     const docRef = doc(firestore, 'unique_code', 'round1');
@@ -160,16 +175,12 @@ function MainContent() {
   const goToGameStart = () => {
     if (gameStage === 'Discussion') {
       setCurrentRound(prevRound => {
-        // Check if the current round is the last round
         if (prevRound >= 5) {
-          // Handle the game's end, maybe navigate to a summary or end screen
           console.log("Game completed. All rounds finished.");
           resetRounds();
           console.log("Updated the docs.");
-          // For example, you might want to set the gameStage to 'GameEnd' or similar
-          return prevRound; // Return the same round number, as the game has ended
+          return prevRound;
         } else {
-          // Increment the round number for the next round
           return prevRound + 1;
         }
       });

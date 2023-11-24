@@ -93,6 +93,35 @@ function GameContentGuess({ question, funccompleteround }) {
   //   fetchScore();
   // }, []);
 
+  useEffect(() => {
+    const fetchScoreOnce = async () => {
+
+      const docRef = doc(firestore, 'unique_code', 'total');
+      const docSnap = await getDoc(docRef);
+      console.log("Line 101 fetching scoree");
+      if (docSnap.exists()) {
+        setScore(docSnap.data().score);
+      } else {
+        console.log(`No such document!`);
+      }
+    };
+
+    fetchScoreOnce();
+  },);
+
+  // try {
+  //   const docRef = doc(firestore, 'unique_code', 'total');
+  //   const docSnap = getDoc(docRef);
+
+  //   if (docSnap.exists()) {
+  //     setScore(docSnap.data().score); // Access the qno field
+  //   } else {
+  //     console.log('No such document!');
+  //   }
+  // } catch (err) {
+  //   console.error("Error fetching score: ", err);
+  // }
+
   const updateScoreInFirestore = async (newScore) => {
     try {
       const docRef = doc(firestore, 'unique_code', 'total');
@@ -158,6 +187,7 @@ function GameContentGuess({ question, funccompleteround }) {
         }
         setScore(score + incscore);
         updateScoreInFirestore(score + incscore);
+        console.log("Score after updation" + score);
         setIsAnswerCorrect(true);
       }
       setMessages(prev => [...prev, { text: input, type: 'sent' }]);
