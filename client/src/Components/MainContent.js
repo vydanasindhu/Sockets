@@ -28,6 +28,16 @@ function MainContent() {
   const initializeRounds = async () => {
     const totalQuestions = questions.length;
     const existingQnos = new Set();
+    // Fetch existing qno for each round and add to the set
+    for (let i = 1; i <= 5; i++) {
+      const roundKey = `round${i}`;
+      const docRef = doc(firestore, 'unique_code', roundKey);
+      const docSnap = await getDoc(docRef);
+      if (docSnap.exists() && docSnap.data().qno !== -1) {
+        existingQnos.add(docSnap.data().qno);
+      }
+    }
+    // Update qno for rounds where it is -1, ensuring no duplication
     for (let i = 1; i <= 5; i++) {
       const roundKey = `round${i}`;
       const docRef = doc(firestore, 'unique_code', roundKey);
@@ -51,16 +61,23 @@ function MainContent() {
   }, [currentRound]);
 
   //set total score to 0
-  try {
-    const docRef = doc(firestore, 'unique_code', 'total');
-    updateDoc(docRef, { score: 0 });
-    console.log('Score updated successfully');
-  } catch (error) {
-    console.error('Error updating score: ', error);
-    console.error('Detailed error message: ', error.message);
-  }
+  const initializeScores = async () => {
+    try {
+      const docRef = doc(firestore, 'unique_code', 'total');
+      await updateDoc(docRef, { score: 0 });
+      console.log('Score updated successfully to 0');
+    } catch (error) {
+      console.error('Error updating score: ', error);
+      console.error('Detailed error message: ', error.message);
+    }
+  };
 
 
+  useEffect(() => {
+    if (currentRound === 1) {
+      initializeScores();
+    }
+  }, [currentRound]);
   /*//set qno to random number for round1
   try {
     const docRef = doc(firestore, 'unique_code', 'round1');
