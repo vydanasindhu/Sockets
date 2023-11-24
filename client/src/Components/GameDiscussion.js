@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import '../App.css';
 
-function GameDiscussion({ question, funccompletediscussion, funcToGameStart }) {
+function GameDiscussion({ question, currentRound, funccompletediscussion, funcToGameStart }) {
   const [ws, setWs] = useState(null);
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState('');
@@ -50,9 +50,14 @@ function GameDiscussion({ question, funccompletediscussion, funcToGameStart }) {
         </div>
         <input value={input} onChange={(e) => setInput(e.target.value)} placeholder="Type a message..." />
         <button onClick={sendMessage}>Send</button>
-        <button onClick={funccompletediscussion}>Survey</button>
+        
+        {/* Conditional rendering based on the current round */}
+        {currentRound < 5 ? (
+          <button className='nextQuestion' onClick={funcToGameStart}>Next Question</button>
+        ) : (
+          <button onClick={funccompletediscussion}>Survey</button>
+        )}
       </div>
-      <button className='nextQuestion' onClick={funcToGameStart}>Next Question</button>
     </div>
   );
 }

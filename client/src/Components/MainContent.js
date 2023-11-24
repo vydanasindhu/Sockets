@@ -46,7 +46,6 @@ function MainContent() {
       }
     }
   };
-  
   useEffect(() => {
     if (currentRound === 1) {
       initializeRounds();
@@ -62,7 +61,7 @@ function MainContent() {
     console.error('Error updating score: ', error);
     console.error('Detailed error message: ', error.message);
   }
-  
+
 
   /*//set qno to random number for round1
   try {
@@ -116,7 +115,7 @@ function MainContent() {
     console.log(`Current round: ${currentRound}`);
     const roundKey = `round${currentRound}`;
     const questionNumber = roundQuestions[roundKey];
-     console.log(`Qno: ${questionNumber}`);
+    console.log(`Qno: ${questionNumber}`);
     if (questionNumber !== null) {
       setCurrentQuestion(questions[questionNumber]);
     }
@@ -124,7 +123,7 @@ function MainContent() {
     // setCurrentQuestion(questions[Math.floor(Math.random() * questions.length)]);
 
     //if round 2 setCurrentQuestion(funquestions[qno]);
-   // setCurrentQuestion(questions[qno]);
+    // setCurrentQuestion(questions[qno]);
   };
 
   const handlecompleteround = () => {
@@ -133,12 +132,15 @@ function MainContent() {
 
   const handlecompletediscussion = () => {
     setGameStage('Survey2');
+    console.log("Game completed. All rounds finished.");
+    resetRounds();
+    console.log("Updated the docs.");
   };
 
   const handleSubmit = () => {
     setGameStage('intro');
   };
-  const resetRounds =  () => {
+  const resetRounds = () => {
     for (let i = 1; i <= 5; i++) {
       const roundKey = `round${i}`;
       const docRef = doc(firestore, 'unique_code', roundKey);
@@ -149,7 +151,7 @@ function MainContent() {
         console.error('Error updating qno after finish ', error);
         console.error('Detailed error message: ', error.message);
       }
-      
+
     }
   };
   const changeGameStage = (newStage) => {
@@ -162,7 +164,7 @@ function MainContent() {
         if (prevRound >= 5) {
           // Handle the game's end, maybe navigate to a summary or end screen
           console.log("Game completed. All rounds finished.");
-          resetRounds(); 
+          resetRounds();
           console.log("Updated the docs.");
           // For example, you might want to set the gameStage to 'GameEnd' or similar
           return prevRound; // Return the same round number, as the game has ended
@@ -362,6 +364,7 @@ function MainContent() {
         {gameStage === 'survey' && RenderSurvey()}
         {gameStage === 'Discussion' && (<GameDiscussion
           question={currentQuestion}
+          currentRound={currentRound}
           funccompletediscussion={handlecompletediscussion}
           funcToGameStart={goToGameStart}
         />)}
