@@ -15,9 +15,43 @@ function MainContent() {
 
   const [gameStage, setGameStage] = useState('Gamestart');
   const [playerName, setPlayerName] = useState('');
+  const [currentRound, setCurrentRound] = useState(1);
   const [currentQuestion, setCurrentQuestion] = useState(null);
-
+  const [roundQuestions, setRoundQuestions] = useState({
+    round1: null,
+    round2: null,
+    round3: null,
+    round4: null,
+    round5: null
+  });
   const [qno, setQno] = useState(null);
+  const initializeRounds = async () => {
+    const totalQuestions = questions.length;
+    const selectedQuestions = new Set();
+
+    while (selectedQuestions.size < 5) {
+      const randomQno = Math.floor(Math.random() * totalQuestions);
+      selectedQuestions.add(randomQno);
+    }
+
+    const roundQnos = Array.from(selectedQuestions);
+    for (let i = 0; i < 5; i++) {
+      console.log("I am called again");
+      const roundKey = `round${i + 1}`;
+      const docRef = doc(firestore, 'unique_code', roundKey);
+      //await updateDoc(docRef, { qno: roundQnos[i] });
+      const docSnap = await getDoc(docRef);
+      if (docSnap.exists() && docSnap.data().qno === -1) {
+        await updateDoc(docRef, { qno: roundQnos[i] });
+      }
+    }
+  };
+  
+  useEffect(() => {
+    if (currentRound === 1) {
+      initializeRounds();
+    }
+  }, [currentRound]);
 
   //set total score to 0
   try {
@@ -28,8 +62,9 @@ function MainContent() {
     console.error('Error updating score: ', error);
     console.error('Detailed error message: ', error.message);
   }
+  
 
-  //set qno to random number for round1
+  /*//set qno to random number for round1
   try {
     const docRef = doc(firestore, 'unique_code', 'round1');
     updateDoc(docRef, { qno: Math.floor(Math.random() * questions.length) });
@@ -37,44 +72,59 @@ function MainContent() {
   } catch (error) {
     console.error('Error updating Qno round1: ', error);
     console.error('Detailed error message: ', error.message);
-  }
+  }*/
 
   useEffect(() => {
-    const fetchQno = async () => {
-      try {
-        const docRef = doc(firestore, 'unique_code', 'round1');
-        const docSnap = await getDoc(docRef);
+    const fetchRoundQuestion = async () => {
+      const roundKey = `round${currentRound}`;
+      const docRef = doc(firestore, 'unique_code', roundKey);
+      const docSnap = await getDoc(docRef);
 
-        if (docSnap.exists()) {
-          setQno(docSnap.data().qno); // Access the qno field
-        } else {
-          console.log('No such document!');
-        }
-      } catch (err) {
-        console.error("Error fetching qno: ", err);
+      if (docSnap.exists()) {
+        setRoundQuestions(prevQuestions => ({
+          ...prevQuestions,
+          [roundKey]: docSnap.data().qno
+        }));
+      } else {
+        console.log(`No question set for ${roundKey}!`);
       }
     };
 
-    fetchQno();
-  }, []);
+    fetchRoundQuestion();
+  }, [currentRound]);
+
 
   const handlecluegiver = () => {
+    console.log(`Current round: ${currentRound}`);
+    const roundKey = `round${currentRound}`;
+    const questionNumber = roundQuestions[roundKey];
+    console.log(`Qno: ${questionNumber}`);
+    if (questionNumber !== null) {
+      setCurrentQuestion(questions[questionNumber]);
+    }
     setGameStage('Clue');
     // setCurrentQuestion(questions[Math.floor(Math.random() * questions.length)]);
     // console.log(qno);
     //console.log(questions[qno]);
 
     //if round 2 setCurrentQuestion(funquestions[qno]);
-    setCurrentQuestion(questions[qno]);
+    //setCurrentQuestion(questions[qno]);
     // console.log(currentQuestion);
   };
 
   const handleguesser = () => {
+    console.log(`Current round: ${currentRound}`);
+    const roundKey = `round${currentRound}`;
+    const questionNumber = roundQuestions[roundKey];
+     console.log(`Qno: ${questionNumber}`);
+    if (questionNumber !== null) {
+      setCurrentQuestion(questions[questionNumber]);
+    }
     setGameStage('Guess');
     // setCurrentQuestion(questions[Math.floor(Math.random() * questions.length)]);
 
     //if round 2 setCurrentQuestion(funquestions[qno]);
-    setCurrentQuestion(questions[qno]);
+   // setCurrentQuestion(questions[qno]);
   };
 
   const handlecompleteround = () => {
@@ -88,11 +138,40 @@ function MainContent() {
   const handleSubmit = () => {
     setGameStage('intro');
   };
-
+  const resetRounds =  () => {
+    for (let i = 1; i <= 5; i++) {
+      const roundKey = `round${i}`;
+      const docRef = doc(firestore, 'unique_code', roundKey);
+      try {
+        updateDoc(docRef, { qno: -1 });
+        console.log('qno updated after finish');
+      } catch (error) {
+        console.error('Error updating qno after finish ', error);
+        console.error('Detailed error message: ', error.message);
+      }
+      
+    }
+  };
   const changeGameStage = (newStage) => {
     setGameStage(newStage);
   };
   const goToGameStart = () => {
+    if (gameStage === 'Discussion') {
+      setCurrentRound(prevRound => {
+        // Check if the current round is the last round
+        if (prevRound >= 5) {
+          // Handle the game's end, maybe navigate to a summary or end screen
+          console.log("Game completed. All rounds finished.");
+          resetRounds(); 
+          console.log("Updated the docs.");
+          // For example, you might want to set the gameStage to 'GameEnd' or similar
+          return prevRound; // Return the same round number, as the game has ended
+        } else {
+          // Increment the round number for the next round
+          return prevRound + 1;
+        }
+      });
+    }
     setGameStage('Gamestart');
   };
 
