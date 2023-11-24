@@ -102,6 +102,8 @@ function GameContentClue({ question, funccompleteround }) {
       forbiddenWord => inputTrimmed.includes(forbiddenWord.toLowerCase())
     );
 
+    const containsAnswer = inputTrimmed.includes(question.answer.toLowerCase())
+
     if (ws && ws.readyState === ws.OPEN && inputTrimmed) {
       if (isSingleWord && !containsForbiddenSubword) {
         ws.send(inputTrimmed);
@@ -112,6 +114,10 @@ function GameContentClue({ question, funccompleteround }) {
           alert("Please enter a single word as a clue.");
         } else if (containsForbiddenSubword) {
           alert("The clue contains a forbidden word. Please try a different word.");
+
+        }
+        else if (containsAnswer) {
+          alert("The clue contains the answer. Please try a different word.");
         }
       }
     }

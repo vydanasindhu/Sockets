@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import '../App.css';
 
-function GameDiscussion({ question }) {
+function GameDiscussion({ question, funccompletediscussion, funcToGameStart }) {
   const [ws, setWs] = useState(null);
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState('');
@@ -9,9 +9,7 @@ function GameDiscussion({ question }) {
   useEffect(() => {
     const newWs = new WebSocket('wss://sockets.vydanasindhu.repl.co/');
     newWs.onmessage = (event) => {
-      // Check if the message is a Blob
       if (event.data instanceof Blob) {
-        // Convert Blob to text
         const reader = new FileReader();
         reader.onload = function() {
           if (reader.result) {
@@ -20,7 +18,6 @@ function GameDiscussion({ question }) {
         };
         reader.readAsText(event.data);
       } else {
-        // Handle as normal text
         setMessages(prev => [...prev, { text: event.data, type: 'received' }]);
       }
     };
@@ -41,26 +38,21 @@ function GameDiscussion({ question }) {
       <div className="QuestionInfo">
         <p className="Question">Question: {question.question}</p>
         <p className='Answer'>Answer: {question.answer}</p>
-        <p className='Source'>Source:   <a href={question.source}> Link </a> </p>
+        <p className='Source'>Source: <a href={question.source}>Link</a></p>
       </div>
       <div className="Chat">
         <div className="Messages">
           {messages.map((message, index) => (
-            <div
-              key={index}
-              className={`Message ${message.type === 'sent' ? 'Sent' : 'Received'}`}
-            >
+            <div key={index} className={`Message ${message.type === 'sent' ? 'Sent' : 'Received'}`}>
               <p>{message.text}</p>
             </div>
           ))}
         </div>
-        <input
-          value={input}
-          onChange={(e) => setInput(e.target.value)}
-          placeholder="Type a message..."
-        />
+        <input value={input} onChange={(e) => setInput(e.target.value)} placeholder="Type a message..." />
         <button onClick={sendMessage}>Send</button>
+        <button onClick={funccompletediscussion}>Survey</button>
       </div>
+      <button className='nextQuestion' onClick={funcToGameStart}>Next Question</button>
     </div>
   );
 }

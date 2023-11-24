@@ -104,7 +104,11 @@ input {
   width: 80%;
   max-width: 600px;
 }
-
+.QuestionChatContainer {
+  display: flex;
+  justify-content: space-between; 
+  width: 100%; 
+}
 .question {
   font-size: 1.2em;
   font-weight: bold;
@@ -213,6 +217,21 @@ input {
 
 
 .button, .submit-guess, .Chat button {
+  background-color: #e0b90b;
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+  transition-duration: 0.4s;
+}
+.nextQuestion {
   background-color: #e0b90b;
   border: none;
   color: white;
