@@ -54,7 +54,7 @@ Currently we are hosting our game using Replit. The game can be accessed using t
    3) GameContentClue.js
    4) GameContentGuess.js
    5) GameDiscussion.js
-3) Go to the Sockets folder now and run - npm install
+3) Go to the Sockets folder now and run - npm install and npm install firebase
 5) Node.js should be initialized for Backend. So run the command in the socket folder - npm  init
 6) Go to the clients folder(cd client) and - npm install
 7) To create a build directory with a production build of the app run the following comamnd in the client folder - npm run build
