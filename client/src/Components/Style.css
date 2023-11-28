@@ -17,6 +17,35 @@ header img {
   height: auto;
 }
 
+.question-container {
+  max-width: 900px; 
+  margin: 0 auto;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #f7f7f7;
+}
+
+.question {
+  margin-bottom: 20px;
+}
+
+.question p {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.answer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+label {
+  font-size: 16px;
+}
+
 .App1 {
   display: flex;
   justify-content: space-between;
@@ -39,6 +68,18 @@ header img {
 .Question, .Answer, .Source {
   margin-bottom: 10px;
   word-wrap: break-word;
+}
+
+.text-field {
+  width: 90%;
+  height: 150px;
+  font-size: 16px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  text-align: left;
+  white-space: nowrap;
+  overflow-x: scroll;
 }
 
 
@@ -92,9 +133,6 @@ input {
   margin-top: 10px; /* Space above the input field */
 }
 
-
-
-/* gamecontent */
 .question-card {
   background-color: #fff;
   border-radius: 10px;
@@ -114,7 +152,16 @@ input {
   font-weight: bold;
   margin-bottom: 20px;
 }
-
+.starter-qns {
+  font-size: 1.2em;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+.answer{
+    font-size: 1.2em;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
 .forbidden-words {
   background-color: #ffcc00;
   padding: 10px;
@@ -168,7 +215,6 @@ input {
   font-weight: bold;
 }
 
-/*Maincontent*/
 
 .mainContent {
   padding: 20px;
@@ -199,7 +245,16 @@ input {
   height: auto;
 }
 
-.button, .next-question {
+.form-textfield {
+  width: 50%;
+  height:30px;
+  padding: 10px;
+  border-radius: 5px;
+  font-size: 10px;
+  margin-botton:20px;
+}
+
+.button, .next-question, .survey {
   background-color: #e0b90b;
   border: none;
   color: white;
@@ -293,4 +348,12 @@ input {
   .score {
     margin-bottom: 10px;
   }
+}
+
+.thank-you-card {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
 }

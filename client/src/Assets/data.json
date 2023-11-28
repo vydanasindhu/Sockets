@@ -28,5 +28,61 @@
     "forbiddenWords": ["robot", "machine", "Cyborg", "terminator", "Bionic"],
     "answer": "robotic",
     "source": "https://www.activsurgical.com/about"
+  },
+  {
+    "question": "Butterfly Network revolutionizes medical imaging by creating the first hand-held whole-body _______ imager, paired with AI technology.",
+    "forbiddenWords": ["sound", "MRI", "X-Ray", "echo", "Imaging"],
+    "answer": "ultrasound",
+    "source": "https://www.butterflynetwork.com/why-butterfly"
+  },
+  {
+    "question": "Cleerly's AI-based platform aids in diagnosing and treating ____ disease earlier by analyzing and characterizing plaque buildup.",
+    "forbiddenWords": ["heartbeat", "Arteries", "blood", "pumping", "veins"],
+    "answer": "heart",
+    "source": "https://cleerlyhealth.com/heart-disease-technology"
+  },
+  {
+    "question": "A form of AI known as Convolutional neural network has been shown to outperform experienced doctors in detecting ______ cancer, especially malignant melanomas.",
+    "forbiddenWords": ["covering", "dermis", "largest", "dermatologist", "sensation"],
+    "answer": "Skin",
+    "source": "https://www.oncozine.com/artificial-intelligence-better-dermatologists-diagnosing-skin-cancer/"
+  },
+  {
+    "question": "An AI framework developed by researchers aids in detecting errors in medication administration using devices such as _____ for patients with lung diseases.",
+    "forbiddenWords": ["Asthma", "Breathing", "Puff", "Respiratory", "Spray"],
+    "answer": "Inhalers",
+    "source": "https://www.nature.com/articles/s41591-021-01273-1"
+  },
+  {
+    "question": "Johnson & Johnson MedTech is using AI in the development of their Monarch™ Platform for _______________",
+    "forbiddenWords": ["Bronchoscopy", "Bruno", "Endoscopy", "Pulmonology", "Respiratory"],
+    "answer": "Bronchoscopy",
+    "source": "https://www.jnjmedtech.com/en-US/product/monarch-bronchoscopy"
+  },
+  {
+    "question": "MIT group's ML algorithm contributes to the identification of cardiomegaly in chest X-rays found _____ approach gives the best result.",
+    "forbiddenWords": ["Hybrid", "Both", "Mixed", "Duel", "Merge"],
+    "answer": "Hybrid",
+    "source": "https://www.ibm.com/blog/the-benefits-of-ai-in-healthcare/"
+  },
+  {
+    "question": "AI-powered chatbots are becoming increasingly common in healthcare for patient interactions. What is the term for these chatbots that assist patients in scheduling appointments and providing medical information?",
+    "forbiddenWords": ["Chatbox", "Appointment", "Online", "Computer"],
+    "answer": "Virtual Assistant",
+    "source": "https://www.linkedin.com/pulse/role-artificial-intelligence-streamlining/"
+  },
+  {
+    "question": "What can the AI system developed by researchers at Moorfields Eye Hospital and UCL Institute of Ophthalmology potentially predict, besides sight-threatening eye diseases?",
+    "forbiddenWords": ["Arrest", "love", "stroke", "Cardiac"],
+    "answer": "Heart Attack",
+    "source": "https://europe.ophthalmologytimes.com/view/retfound-artificial-intelligence-model-to-detect-retinal-disease-biomarkers-developed-by-moorfields-eye-hospital"
   }
+
+
+
+
+
+
+
+
 ]

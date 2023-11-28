@@ -7,6 +7,7 @@ import avatar2 from '../Assets/avatar2.png';
 import { collection, doc, getDoc, onSnapshot } from 'firebase/firestore';
 import { firestore } from '../firebase';
 
+
 function GameContentClue({ question, funccompleteround }) {
   const [timer, setTimer] = useState(60);
   const [score, setScore] = useState(0);
@@ -136,6 +137,7 @@ function GameContentClue({ question, funccompleteround }) {
       </div>
       <div className="question-card">
         <p className="question">{question.question}</p>
+        <p className="answer"> Answer: {question.answer}</p>
         <h7 className="forbidden-words-heading">Forbidden words</h7>
         <ul className="forbidden-words">
           {question.forbiddenWords.map((word, index) => (

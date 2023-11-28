@@ -30,5 +30,54 @@
     "forbiddenWords": ["Monkey", "Yellow", "Peel", "Tree", "Tropical"],
     "answer": "Banana",
     "source": "https://www.britannica.com/plant/banana-plant"
+  },
+  {
+    "question": "______ is a classic board game in which players buy and trade properties and attempt to bankrupt their opponents.",
+    "forbiddenWords": ["money", "trading", "hotels", "houses", "mono"],
+    "answer": "Monopoly",
+    "source": "https://en.wikipedia.org/wiki/Monopoly_(game)"
+  },
+  {
+    "question": "______ are an ancient construction in Egypt, known for their massive size and precise alignment.",
+    "forbiddenWords": ["Giza", "Triangle", "Tomb", "sand", "Pharaoh"],
+    "answer": "Pyramids",
+    "source": "https://en.wikipedia.org/wiki/Great_Pyramid_of_Giza"
+  },
+  {
+    "question": "______ is a world-famous soft drink that was originally intended as a patent medicine and was invented in the late 19th century.",
+    "forbiddenWords": ["Coca", "Cola", "Soda", "Refreshment", "Red"],
+    "answer": "Coke",
+    "source": "https://en.wikipedia.org/wiki/Coca-Cola"
+  },
+  {
+    "question": "_________ is the second highest peak in the world",
+    "forbiddenWords": ["Everest", "Himalayas", "K2", "Pakistan", "two"],
+    "answer": "K2",
+    "source": "https://en.wikipedia.org/wiki/K2"
+  },
+  {
+    "question": "This famous painting by Leonardo da Vinci is known for its mysterious smile and is displayed in the Louvre Museum in Paris.",
+    "forbiddenWords": ["Gherardini", "Eyes", "Painting", "Artist", "Smile"],
+    "answer": "Monalisa",
+    "source": "https://www.louvre.fr/en/explore/the-palace/from-the-mona-lisa-to-the-wedding-feast-at-cana#"
+  },
+  {
+    "question": "Who is the famous playwright known for writing tragedies like Macbeth?",
+    "forbiddenWords": ["Shake", "Speare", "Hamlet", "Romeo", "Juliet"],
+    "answer": "Shakespeare",
+    "source": "https://en.wikipedia.org/wiki/William_Shakespeare"
+  },
+  {
+    "question": "What is the red planet in our solar system known for its thin atmosphere and potential for future human exploration?",
+    "forbiddenWords": ["Red", "Chocolate", "Four", "rover", "NASA"],
+    "answer": "Mars",
+    "source": "https://science.nasa.gov/mars/"
   }
+
+
+
+
+
+
+
 ]
