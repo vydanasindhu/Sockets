@@ -32,11 +32,32 @@ Vishnu Deep Mandava(vm28)
    After each question, the answer and the source are revealed.
    Players can discuss about the question and strategize for the next rounds.
 
+# Game URL
+
+Currently we are hosting our game using Replit. The game can be accessed using the URL - https://sockets.vydanasindhu.repl.co/
+
 # Running the game locally
 
-1) npm has to be installed - npm install
-2) Node.js should be initialized for Backend - npm  init
-3) Run the following commands to install modules:
+1) Clone the repository using the command - git clone https://github.com/vydanasindhu/Sockets.git
+2) To run the code locally, the websocket URL has to be changed.
+    change the line const newWs = new WebSocket('wss://sockets.vydanasindhu.repl.co/') to const newWs = new WebSocket('ws://localhost:8080').
+     In the ../Sockets/client/src/Components folder make the changes in the following files:
+   1) Chat.js
+   2) Discussion.js
+   3) GameContentClue.js
+   4) GameContentGuess.js
+   5) GameDiscussion.js
+3) Go to the Sockets folder now and run - npm install
+5) Node.js should be initialized for Backend. So run the command in the socket folder - npm  init
+6) Go to the clients folder(cd client) and - npm install
+7) To create a build directory with a production build of the app run the following comamnd in the client folder - npm run build
+8) In the client terminal run the command to start the react app - npm start
+10) The app would be running locally and can be accessed via the URL - http://localhost:3000/
+
+# Common Issues
+
+If you are facing any errors install the following and the app would run as required.
+ Run the following commands to install modules:
    - npm install react-scripts --save
    - npm install web-vitals
    - npm install express socket.io
