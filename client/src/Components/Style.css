@@ -133,6 +133,11 @@ input {
   margin-top: 10px; 
 }
 
+input[type="range"] {
+  margin-top: 0px;
+  
+}
+
 .question-card {
   background-color: #fff;
   border-radius: 10px;
@@ -229,7 +234,6 @@ input {
   flex-direction: row;
   align-items: flex-start;
   justify-content:center;
-  height: 500px;
   gap: 20px;
 }
 
@@ -274,6 +278,11 @@ input {
   transition-duration: 0.4s;
 }
 
+.slider-card{
+  display: flex; 
+  align-items: center;
+  justify-content: center;
+}
 
 .button, .submit-guess, .Chat button, .Chat2 button {
   background-color: #e0b90b;

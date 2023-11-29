@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { updateDoc } from 'firebase/firestore';
-import { docReff } from './MainContent'; // Ensure docRef is correctly imported
+import { docReff } from './MainContent';
 import { interaction_cnt } from './GameDiscussion';
 
 function SurveyComp({ funccompletesurvey }) {
@@ -37,7 +37,6 @@ function SurveyComp({ funccompletesurvey }) {
         interaction_count: interaction_cnt,
         textquestion3: textquestion3,
         textquestion4: textquestion4,
-        // Assuming answers2 is an object with fields and values to update
         ...answers2,
       };
       // await updateDoc(docReff, answers2);
@@ -56,7 +55,7 @@ function SurveyComp({ funccompletesurvey }) {
       <div className="form-container">
         <form onSubmit={handleeSubmit2}>
           <label className="form-label">
-            What do you think about the benefits that  AI can bring to healthcare ? Rate from 1 to 10
+            What do you think about the benefits that  AI can bring to healthcare ? Rate from 1 to 10 on How optimistic are you about it?
             <br />
             <input
               type="text"
@@ -66,16 +65,19 @@ function SurveyComp({ funccompletesurvey }) {
               onChange={handleInputText3Change}
             />
             <br />
-            <br />
-            <input type="range" name="question5" min="1"
-              max="10" value={answers2.question5} onChange={handleSliderChange2} />
+            <div className="slider-card">
+              <p>Least Optimistic</p>
+              <input type="range" name="question5" min="1"
+                max="10" value={answers2.question5} onChange={handleSliderChange2} />
+              <p>Most Optimistic</p>
+            </div>
+
             <div className="score-display">Score: {answers2.question5}</div>
           </label>
           <br />
-          <br />
           <label className="form-label">
             What are your views about the risks and challenges
-            AI might pose in healthcare? Rate from 1 to 10
+            AI might pose in healthcare? Rate from 1 to 10 on How risky AI can be in healthcare
             <br />
             <input
               type="text"
@@ -85,27 +87,42 @@ function SurveyComp({ funccompletesurvey }) {
               onChange={handleInputText4Change}
             />
             <br />
-            <br />
-            <input type="range" name="question6" min="1"
-              max="10" value={answers2.question6} onChange={handleSliderChange2} />
+            <div className="slider-card">
+              <p>Low Risk</p>
+              <input type="range" name="question6" min="1"
+                max="10" value={answers2.question6} onChange={handleSliderChange2} />
+              <p>High Risk</p>
+            </div>
             <div className="score-display">Score: {answers2.question6}</div>
           </label>
           <br />
           <br />
           <label className="form-label">
             How strongly do you belive that AI will speed up innovation
-            in developing new treatments and drugs? <br />
-            <input type="range" name="question7" min="1" max="10"
-              value={answers2.question7} onChange={handleSliderChange2} />
+            in developing new treatments and drugs?
+            <br />
+            <div className="slider-card">
+              <p>Strongly Disagree</p>
+              <input type="range" name="question7" min="1" max="10"
+                value={answers2.question7} onChange={handleSliderChange2} />
+              <p>Strongly Agree</p>
+            </div>
+
             <div className="score-display">Score: {answers2.question7}</div>
           </label>
           <br />
           <br />
           <label className="form-label">
             How significantly do you think AI will transform the
-            healthcare industry in the next decade? <br />
-            <input type="range" name="question8" min="1" max="10"
-              value={answers2.question8} onChange={handleSliderChange2} />
+            healthcare industry in the next decade?
+            <br />
+
+            <div className="slider-card">
+              <p>Not Significant</p>
+              <input type="range" name="question8" min="1" max="10"
+                value={answers2.question8} onChange={handleSliderChange2} />
+              <p>Highly Significant</p>
+            </div >
             <div className="score-display">Score: {answers2.question8}</div>
           </label>
           <br />

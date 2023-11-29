@@ -86,15 +86,6 @@ function MainContent() {
       initializeScores();
     }
   }, [currentRound]);
-  /*//set qno to random number for round1
-  try {
-        const docRef = doc(firestore, 'unique_code', 'round1');
-        updateDoc(docRef, { qno: Math.floor(Math.random() * questions.length) });
-        console.log('Qno round1 updated successfully');
-  } catch (error) {
-        console.error('Error updating Qno round1: ', error);
-        console.error('Detailed error message: ', error.message);
-  }*/
 
   useEffect(() => {
     if (isRoundsInitialized) {
@@ -132,13 +123,6 @@ function MainContent() {
       }
     }
     setGameStage('Clue');
-    // setCurrentQuestion(questions[Math.floor(Math.random() * questions.length)]);
-    // console.log(qno);
-    //console.log(questions[qno]);
-
-    //if round 2 setCurrentQuestion(funquestions[qno]);
-    //setCurrentQuestion(questions[qno]);
-    // console.log(currentQuestion);
   };
 
   const handleguesser = () => {
@@ -155,10 +139,6 @@ function MainContent() {
       }
     }
     setGameStage('Guess');
-    // setCurrentQuestion(questions[Math.floor(Math.random() * questions.length)]);
-
-    //if round 2 setCurrentQuestion(funquestions[qno]);
-    // setCurrentQuestion(questions[qno]);
   };
 
   const handlecompleteround = () => {
@@ -188,9 +168,6 @@ function MainContent() {
       }
 
     }
-  };
-  const changeGameStage = (newStage) => {
-    setGameStage(newStage);
   };
 
   const handlecompletesurvey = () => {
@@ -337,21 +314,6 @@ function MainContent() {
     </div>
   );
 
-  const renderThanku = () => {
-    <ThankYouPage />
-    // const docRef = doc(firestore, 'unique_code', 'total');
-    // const docSnap = await getDoc(docRef);
-    // console.log("Line 343 fetching scoree");
-
-    // const score = docSnap.data().score;
-
-    // <div class="thank-you-card">
-    //   <h3>Score: ${score}</h3>
-    //   <h1>Thank You for Playing!</h1>
-    //   <p>We hope you had a fantastic time.</p>
-    // </div>
-  };
-
   const [yesornoanswers, yesornosetAnswers] = useState({
     yesornoq1: '',
     yesornoq2: '',
@@ -368,21 +330,16 @@ function MainContent() {
   };
 
   async function handleyesornocompleted(e) {
-    // Do something with the answers, e.g., send them to Firebase
     //console.log('yesornoanswers:', yesornoanswers);
 
     e.preventDefault();
     try {
       await updateDoc(docReff, yesornoanswers);
-      // docReff = await addDoc(collection(firestore, 'answerss'), answers);
       console.log("YesorNoAnswers - Document written with ID: ", docReff.id);
 
     } catch (e) {
       console.error('Error adding document: ', e);
     };
-    // You can call your function to set values here
-    // Example: setValuesInFirestore(answers);
-
     // Update the game stage
     setGameStage('survey');
   };
@@ -546,8 +503,6 @@ function MainContent() {
         ...answers,
       };
       await updateDoc(docReff, combinedUpdates);
-
-      // docReff = await addDoc(collection(firestore, 'answerss'), answers);
       console.log("Initial Survey answers - Document written with ID: ", docReff.id);
 
     } catch (e) {
@@ -563,7 +518,7 @@ function MainContent() {
         <div className="form-container">
           <form onSubmit={handleeSubmit}>
             <label className="form-label">
-              What do you think about the benefits that  AI can bring to healthcare ? Rate from 1 to 10
+              What do you think about the benefits that  AI can bring to healthcare ? Rate from 1 to 10 on How optimistic are you about it?
               <br />
               <input
                 type="text"
@@ -573,20 +528,18 @@ function MainContent() {
                 onChange={handleInputText1Change}
               />
               <br />
-              <br />
-              <input type="range" name="question1" min="1"
-                max="10" value={answers.question1} onChange={handleSliderChange} />
-              <div>
-                <span>Minimum: 1</span>
-                <span>Maximum: 10</span>
+              <div className="slider-card">
+                <p>Least Optimistic</p>
+                <input type="range" name="question1" min="1" max="10" value={answers.question1} onChange={handleSliderChange} />
+                <p>Most Optimistic</p>
               </div>
+
               <div className="score-display">Score: {answers.question1}</div>
             </label>
             <br />
-            <br />
             <label className="form-label">
               What are your views about the risks and challenges
-              AI might pose in healthcare? Rate from 1 to 10
+              AI might pose in healthcare? Rate from 1 to 10 on How risky AI can be in healthcare
               <br />
               <input
                 type="text"
@@ -596,9 +549,12 @@ function MainContent() {
                 onChange={handleInputText2Change}
               />
               <br />
-              <br />
-              <input type="range" name="question2" min="1"
-                max="10" value={answers.question2} onChange={handleSliderChange} />
+              <div className="slider-card">
+                <p>Low Risk</p>
+                <input type="range" name="question2" min="1"
+                  max="10" value={answers.question2} onChange={handleSliderChange} />
+                <p>High Risk</p>
+              </div>
               <div className="score-display">Score: {answers.question2}</div>
             </label>
             <br />
@@ -606,8 +562,14 @@ function MainContent() {
             <label className="form-label">
               How strongly do you belive that AI will speed up innovation
               in developing new treatments and drugs? <br />
-              <input type="range" name="question3" min="1" max="10"
-                value={answers.question3} onChange={handleSliderChange} />
+
+              <div className="slider-card">
+                <p>Strongly Disagree</p>
+                <input type="range" name="question3" min="1" max="10"
+                  value={answers.question3} onChange={handleSliderChange} />
+                <p>Strongly Agree</p>
+              </div>
+
               <div className="score-display">Score: {answers.question3}</div>
             </label>
             <br />
@@ -615,8 +577,14 @@ function MainContent() {
             <label className="form-label">
               How significantly do you think AI will transform the
               healthcare industry in the next decade? <br />
-              <input type="range" name="question4" min="1" max="10"
-                value={answers.question4} onChange={handleSliderChange} />
+
+              <div className="slider-card">
+                <p>Not Significant</p>
+                <input type="range" name="question4" min="1" max="10"
+                  value={answers.question4} onChange={handleSliderChange} />
+                <p>Highly Significant</p>
+              </div >
+
               <div className="score-display">Score: {answers.question4}</div>
             </label>
             <br />

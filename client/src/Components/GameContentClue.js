@@ -7,7 +7,6 @@ import avatar2 from '../Assets/avatar2.png';
 import { collection, doc, getDoc, onSnapshot } from 'firebase/firestore';
 import { firestore } from '../firebase';
 
-
 function GameContentClue({ question, funccompleteround }) {
   const [timer, setTimer] = useState(60);
   const [score, setScore] = useState(0);
@@ -49,27 +48,6 @@ function GameContentClue({ question, funccompleteround }) {
     setWs(newWs);
     return () => newWs.close();
   }, []);
-
-  //pull score from database
-  // useEffect(() => {
-  //   const fetchScore = async () => {
-  //     try {
-  //       const docRef = doc(firestore, 'unique_code', 'total');
-  //       const docSnap = await getDoc(docRef);
-
-  //       if (docSnap.exists()) {
-  //         console.log(docSnap.data().score);
-  //         setScore(docSnap.data().score);
-  //       } else {
-  //         console.log('No such document!');
-  //       }
-  //     } catch (err) {
-  //       console.error("Error fetching score: ", err);
-  //     }
-  //   };
-
-  //   fetchScore();
-  // }, []);
 
   // continuously check database and update score accordingly
   useEffect(() => {

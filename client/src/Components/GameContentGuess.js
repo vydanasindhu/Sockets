@@ -57,42 +57,6 @@ function GameContentGuess({ question, funccompleteround }) {
     return () => newWs.close();
   }, []);
 
-  // useEffect(() => {
-  //   const unsubscribe = firestore.collection('unique_code').doc('total')
-  //     .onSnapshot(docSnapshot => {
-  //       if (docSnapshot.exists) {
-  //         const data = docSnapshot.data();
-  //         console.log(data.score);
-  //         setScore(data.score); // Update the local state when Firestore updates
-  //       }
-  //     }, err => {
-  //       console.log(`Encountered error: ${err}`);
-  //     });
-
-  //   // Clean up the listener when the component unmounts
-  //   return () => unsubscribe();
-  // }, []);
-
-  //pull score from database
-  // useEffect(() => {
-  //   const fetchScore = async () => {
-  //     try {
-  //       const docRef = doc(firestore, 'unique_code', 'total');
-  //       const docSnap = await getDoc(docRef);
-
-  //       if (docSnap.exists()) {
-  //         setScore(docSnap.data().score); // Access the qno field
-  //       } else {
-  //         console.log('No such document!');
-  //       }
-  //     } catch (err) {
-  //       console.error("Error fetching score: ", err);
-  //     }
-  //   };
-
-  //   fetchScore();
-  // }, []);
-
   useEffect(() => {
     const fetchScoreOnce = async () => {
 
@@ -109,19 +73,6 @@ function GameContentGuess({ question, funccompleteround }) {
     fetchScoreOnce();
   },);
 
-  // try {
-  //   const docRef = doc(firestore, 'unique_code', 'total');
-  //   const docSnap = getDoc(docRef);
-
-  //   if (docSnap.exists()) {
-  //     setScore(docSnap.data().score); // Access the qno field
-  //   } else {
-  //     console.log('No such document!');
-  //   }
-  // } catch (err) {
-  //   console.error("Error fetching score: ", err);
-  // }
-
   const updateScoreInFirestore = async (newScore) => {
     try {
       const docRef = doc(firestore, 'unique_code', 'total');
@@ -131,27 +82,6 @@ function GameContentGuess({ question, funccompleteround }) {
       console.error('Error updating score: ', error);
       console.error('Detailed error message: ', error.message);
     }
-  };
-
-  // const handleScoreChange = (given_ans) => {
-  //   if (given_ans === question.answer.toLowerCase()) {
-  //     setScore(score + 1);
-  //     updateScoreInFirestore(score + 1);
-  //   }
-  // };
-
-  const handleGuessChange = (event) => {
-    setGuess(event.target.value);
-  };
-
-
-  const submitGuess = () => {
-    // Add the current guess to previous guesses
-    setPreviousGuesses(prevGuesses => [...prevGuesses, guess]);
-    // Logic to check the guess and update score goes here
-    setTimer(60);
-    setIsTimerActive(true);
-    setGuess('');
   };
 
   if (!question) {
@@ -195,7 +125,6 @@ function GameContentGuess({ question, funccompleteround }) {
       setnumGuesses(numGuesses + 1);
     }
   };
-
 
 
   return (
