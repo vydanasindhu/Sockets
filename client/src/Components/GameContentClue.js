@@ -168,7 +168,7 @@ function GameContentClue({ question, funccompleteround }) {
           </p>
         </div>
 
-        <div className="App">
+        <div className="App3">
           <div className="Chat">
             <input
               value={input}

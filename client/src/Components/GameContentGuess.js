@@ -228,7 +228,7 @@ function GameContentGuess({ question, funccompleteround }) {
               .join(', ')}
           </p>
         </div>
-        <div className="App">
+        <div className="App3">
           <div className="Chat">
             <input
               value={input}

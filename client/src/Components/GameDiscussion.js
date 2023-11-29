@@ -39,13 +39,13 @@ function GameDiscussion({ question, currentRound, funccompletediscussion, funcTo
     <div>
       <div className="App1">
         <div className="QuestionInfo">
-          <p className="Question">Question: {question.question}</p>
-          <p className='Answer'>Answer: {question.answer}</p>
-          <p className='Source'>Source: <a href={question.source}>Link</a></p>
+          <p className="Question"><b>Question:</b> {question.question}</p>
+          <p className='Answer'><b>Answer:</b> {question.answer}</p>
+          <p className='Source'><b>Source:</b> <a href={question.source}>Link</a></p>
         </div>
-        <div className="Chat">
+        <div className="Chat2">
           <div className="starter-questions">
-            <p className="starter-qns">Some Stater Questions:</p>
+            <p className="starter-qns">Some prompts to initiate discussion:</p>
             <p className="starter-qns">For Guessor:</p>
             <p>What was the key clue that helped you guess the answer?</p>
             <p>What are your thoughts about the clue given?</p>

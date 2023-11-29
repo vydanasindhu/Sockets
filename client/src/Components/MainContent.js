@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import leftRobotImage from '../Assets/Robot1.png';
 import rightRobotImage from '../Assets/Robot2.png';
-import Chat from './Chat';
 import GameContentClue from './GameContentClue';
 import GameContentGuess from './GameContentGuess';
 import GameDiscussion from './GameDiscussion';
 import SurveyComp from './SurveyComp';
+import ThankYouPage from './Thankyou';
 import questions from '../Assets/data.json';
 import funquestions from '../Assets/fundata.json';
 import './Style.css';
@@ -337,12 +337,20 @@ function MainContent() {
     </div>
   );
 
-  const renderThanku = () => (
-    <div class="thank-you-card">
-      <h1>Thank You for Playing!</h1>
-      <p>We hope you had a fantastic time.</p>
-    </div>
-  );
+  const renderThanku = () => {
+    <ThankYouPage />
+    // const docRef = doc(firestore, 'unique_code', 'total');
+    // const docSnap = await getDoc(docRef);
+    // console.log("Line 343 fetching scoree");
+
+    // const score = docSnap.data().score;
+
+    // <div class="thank-you-card">
+    //   <h3>Score: ${score}</h3>
+    //   <h1>Thank You for Playing!</h1>
+    //   <p>We hope you had a fantastic time.</p>
+    // </div>
+  };
 
   const [yesornoanswers, yesornosetAnswers] = useState({
     yesornoq1: '',
@@ -568,6 +576,10 @@ function MainContent() {
               <br />
               <input type="range" name="question1" min="1"
                 max="10" value={answers.question1} onChange={handleSliderChange} />
+              <div>
+                <span>Minimum: 1</span>
+                <span>Maximum: 10</span>
+              </div>
               <div className="score-display">Score: {answers.question1}</div>
             </label>
             <br />
@@ -645,7 +657,7 @@ function MainContent() {
           funcToGameStart={goToGameStart}
         />)}
         {gameStage === 'Survey2' && Surveytwo()}
-        {gameStage === 'Thanku' && renderThanku()}
+        {gameStage === 'Thanku' && <ThankYouPage />}
 
       </div>
       {renderrightImages()}

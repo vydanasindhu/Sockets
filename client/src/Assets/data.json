@@ -76,13 +76,31 @@
     "forbiddenWords": ["Arrest", "love", "stroke", "Cardiac"],
     "answer": "Heart Attack",
     "source": "https://europe.ophthalmologytimes.com/view/retfound-artificial-intelligence-model-to-detect-retinal-disease-biomarkers-developed-by-moorfields-eye-hospital"
+  },
+  {
+    "question": "What is the term for the AI application that uses computer vision to analyze medical images like X-rays and CT scans for diagnosis?",
+    "forbiddenWords": ["AI", "Computer", "Vision", "Images", "X-rays", "scans"],
+    "answer": "Radiomics",
+    "source": "https://www.frontiersin.org/journals/oncology/articles/10.3389/fonc.2020.00342/full"
+  },
+  {
+    "question": "IBM's ____ has received considerable attention in the media for its focus on precision medicine, particularly cancer diagnosis and treatment. It employs a combination of machine learning and NLP capabilities.",
+    "forbiddenWords": ["What", "Son", "Healthcare", "Cloud"],
+    "answer": "Watson",
+    "source": "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6616181/"
+  },
+  {
+    "question": "AI is facilitating early disease detection by analyzing genetic information. _____ analysis is the term for this AI application that assesses genetic data to predict health risks?",
+    "forbiddenWords": ["Genetics", "Prediction", "Disease", "Health"],
+    "answer": "Genomic",
+    "source": "https://genomemedicine.biomedcentral.com/"
+
+  },
+  {
+    "question": "What is the potential drawback of overreliance on AI in clinical decision-making, where medical professionals may rely too heavily on algorithmic recommendations?",
+    "forbiddenWords": ["Drawback", "Overreliance", "Algorithmic", "Recommendations"],
+    "answer": "Depersonalization",
+    "source": "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC7913310/"
   }
-
-
-
-
-
-
-
 
 ]

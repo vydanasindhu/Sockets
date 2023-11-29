@@ -2,6 +2,7 @@
 
 .App {
   text-align: center;
+  /* padding-left:40px; */
 }
 
 .App-logo {
@@ -43,7 +44,7 @@
 
 .Chat {
   margin-top: 20px;
-  padding: 20px;
+  padding: 10px;
   text-align: left;
   display: flex;
   flex-direction: column;
@@ -51,7 +52,17 @@
   width: 500px;
 }
 
-.next, .survey{
+.Chat2 {
+  /* margin-top: 20px; */
+  padding: 10px;
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 500px;
+}
+
+.next {
   margin-top: 20px;
   padding: 20px;
   text-align: left;
@@ -62,9 +73,21 @@
   align-items: stretch;
   margin-left:450px
   
+}g
+
+.survey{
+  margin-top: 20px;
+  padding: 20px;
+  /* text-align: left; */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 500px;
+  align-items: stretch;
+  margin-left:200px
 }
 
-.Chat input {
+.Chat input, .Chat2 input {
   width: 100%;
   padding: 10px;
   margin-bottom: 10px;
