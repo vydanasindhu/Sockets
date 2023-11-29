@@ -41,32 +41,49 @@ Vishnu Deep Mandava(vm28)
 
 # Game URL
 
-Currently we are hosting our game using Replit. The game can be accessed using the URL - https://sockets.vydanasindhu.repl.co/
+Currently we are hosting our game using Replit. The game can be accessed using the link - https://sockets.vydanasindhu.repl.co/
+
+We are using Replit on a free trial. The above link will be inaccessible from Dec 5th.  We will be hosting it again using a different account on free trial which would be accessible till Dec 18th. We will be providing the updated link  on the 5th.
 
 # Running the game locally
 
-1) Clone the repository using the command - git clone https://github.com/vydanasindhu/Sockets.git
-2) To run the code locally, the websocket URL has to be changed.
-    change the line const newWs = new WebSocket('wss://sockets.vydanasindhu.repl.co/') to const newWs = new WebSocket('ws://localhost:8080').
-     In the ../Sockets/client/src/Components folder make the changes in the following files:
-   1) Chat.js
-   2) Discussion.js
-   3) GameContentClue.js
-   4) GameContentGuess.js
-   5) GameDiscussion.js
+1) Clone the repository using the command - 
+   - git clone https://github.com/vydanasindhu/Sockets.git
+2) To run the code locally, the websocket URL has to be changed. Change the following line:
+   - const newWs = new WebSocket('wss://sockets.vydanasindhu.repl.co/');to 
+   - const newWs = new WebSocket('ws://localhost:8080');
+
+    In the ../Sockets/client/src/Components folder make the changes in the following files:
+   -  Chat.js
+   -  Discussion.js
+   -  GameContentClue.js
+   -  GameContentGuess.js
+   -  GameDiscussion.js
+         
 3) Go to the Sockets folder now and run - npm install and npm install firebase
-5) Node.js should be initialized for Backend. So run the command in the socket folder - npm  init
-6) Go to the clients folder(cd client) and - npm install
-7) To create a build directory with a production build of the app run the following comamnd in the client folder - npm run build
-8) In the client terminal run the command to start the react app - npm start
-10) The app would be running locally and can be accessed via the URL - http://localhost:3000/
+4) Node.js should be initialized for Backend. So run the command in the socket folder - npm init
+5) Go to the clients folder(cd client) and - npm install
+6) To create a build directory with a production build of the app run the following command in the client folder - npm run build
+7) Open two terminals, let one terminal be in Sockets folder and the other in client (cd client from root(Sockets))
+8) In the Sockets terminal run the command to start the server - npm start
+9) In the client terminal run the command to start the react app - npm start
+10) The app would be running locally and can be accessed via the link - http://localhost:3000/
+11) Use the same link to open two tabs, one for player 1 and the other for player 2. 
 
 # Common Issues
 
-If you are facing any errors install the following and the app would run as required.
- Run the following commands to install modules:
+1.  If you are facing any errors install the following and the app would run as required. Run the following commands to install modules:
    - npm install react-scripts --save
    - npm install web-vitals
    - npm install express socket.io
    - npm install socket.io-client
+  
+2.  To run the app on a different port than the default 3000 use the following commands (Change the port number as required):
+
+   MacOS/Linux
+   - PORT=5000 npm start
+
+   Windows
+   - set PORT=5000 && npm start
+
 
