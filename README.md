@@ -43,8 +43,6 @@ Vishnu Deep Mandava(vm28)
 
 Currently we are hosting our game using Replit. The game can be accessed using the link - https://sockets.vydanasindhu.repl.co/
 
-We are using Replit on a free trial. The above link will be inaccessible from Dec 5th.  We will be hosting it again using a different account on free trial which would be accessible till Dec 18th. We will be providing the updated link  on the 5th.
-
 # Running the game locally
 
 1) Clone the repository using the command - 
